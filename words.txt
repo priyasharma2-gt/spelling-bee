@@ -1,0 +1,10 @@
+apple
+banana
+computer
+elephant
+javascript
+library
+mountain
+notebook
+umbrella
+whisper

@@ -1,0 +1,92 @@
+let words = [];
+let currentWord = null;
+
+// Elements
+const playBtn = document.getElementById("playBtn");
+const nextBtn = document.getElementById("nextBtn");
+const checkBtn = document.getElementById("checkBtn");
+const answerInput = document.getElementById("answerInput");
+const resultDiv = document.getElementById("result");
+
+// Speech synthesis
+const synth = window.speechSynthesis;
+
+// Load words from words.txt
+fetch("./words.txt")
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error("Failed to load words.txt");
+    }
+    return response.text();
+  })
+  .then((text) => {
+    words = text
+      .split("\n")
+      .map((w) => w.trim())
+      .filter((w) => w.length > 0);
+
+    pickRandomWord();
+  })
+  .catch((err) => {
+    resultDiv.textContent = "Error loading words list";
+    resultDiv.style.color = "red";
+    console.error(err);
+  });
+
+function pickRandomWord() {
+  if (words.length === 0) return;
+
+  const index = Math.floor(Math.random() * words.length);
+  currentWord = words[index];
+  answerInput.value = "";
+  resultDiv.textContent = "";
+}
+
+function speakWord() {
+  if (!currentWord) return;
+
+  const utterance = new SpeechSynthesisUtterance(currentWord);
+  utterance.rate = 0.9;
+  synth.cancel();
+  synth.speak(utterance);
+}
+
+function checkAnswer() {
+  if (!currentWord) return;
+
+  const userAnswer = answerInput.value.trim().toLowerCase();
+  const correct = currentWord.toLowerCase();
+
+  if (userAnswer === correct) {
+    resultDiv.innerHTML = `
+            <span class="text-success">
+                <i class="bi bi-check-circle-fill me-1"></i>
+                OK
+            </span>
+        `;
+    speakText("Correct");
+  } else {
+    resultDiv.innerHTML = `
+            <span class="text-danger">
+                <i class="bi bi-x-circle-fill me-1"></i>
+                WRONG
+            </span>
+        `;
+    speakText("Wrong");
+  }
+}
+
+function speakText(text) {
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.rate = 0.9;
+  synth.cancel();
+  synth.speak(utterance);
+}
+
+// Events
+playBtn.addEventListener("click", speakWord);
+nextBtn.addEventListener("click", () => {
+  pickRandomWord();
+  speakWord();
+});
+checkBtn.addEventListener("click", checkAnswer);
