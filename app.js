@@ -46,7 +46,7 @@ function speakWord() {
   if (!currentWord) return;
 
   const utterance = new SpeechSynthesisUtterance(currentWord);
-  utterance.rate = 0.9;
+  utterance.rate = 0.5;
   synth.cancel();
   synth.speak(utterance);
 }
