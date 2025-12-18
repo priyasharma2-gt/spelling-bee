@@ -38,8 +38,11 @@ function pickRandomWord() {
 
   const index = Math.floor(Math.random() * words.length);
   currentWord = words[index];
+
   answerInput.value = "";
   resultDiv.textContent = "";
+
+  disableNextButton();
 }
 
 function speakWord() {
@@ -47,6 +50,13 @@ function speakWord() {
 
   const utterance = new SpeechSynthesisUtterance(currentWord);
   utterance.rate = 0.5;
+
+  playBtn.classList.add("playing");
+
+  utterance.onend = () => {
+    playBtn.classList.remove("playing");
+  };
+
   synth.cancel();
   synth.speak(utterance);
 }
@@ -65,6 +75,7 @@ function checkAnswer() {
             </span>
         `;
     speakText("Correct");
+    enableNextButton();
   } else {
     resultDiv.innerHTML = `
             <span class="text-danger">
@@ -78,9 +89,21 @@ function checkAnswer() {
 
 function speakText(text) {
   const utterance = new SpeechSynthesisUtterance(text);
-  utterance.rate = 0.9;
+  utterance.rate = 0.5;
   synth.cancel();
   synth.speak(utterance);
+}
+
+function enableNextButton() {
+  nextBtn.disabled = false;
+  nextBtn.classList.remove("btn-secondary");
+  nextBtn.classList.add("btn-success");
+}
+
+function disableNextButton() {
+  nextBtn.disabled = true;
+  nextBtn.classList.remove("btn-success");
+  nextBtn.classList.add("btn-secondary");
 }
 
 // Events
