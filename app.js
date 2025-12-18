@@ -42,7 +42,7 @@ function pickRandomWord() {
   answerInput.value = "";
   resultDiv.textContent = "";
 
-  disableNextButton();
+  //disableNextButton();
 }
 
 function speakWord() {
@@ -75,7 +75,7 @@ function checkAnswer() {
             </span>
         `;
     speakText("Correct");
-    enableNextButton();
+    //enableNextButton();
   } else {
     resultDiv.innerHTML = `
             <span class="text-danger">
