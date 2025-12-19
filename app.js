@@ -29,6 +29,7 @@ fetch("./words.txt")
       .map((w) => w.trim())
       .filter((w) => w.length > 0);
 
+    updateTotalWords();
     pickRandomWord();
   })
   .catch((err) => {
@@ -82,7 +83,8 @@ function checkAnswer() {
     speakText("Correct");
 
     correctCount++;
-    scoreDiv.innerHTML = `Correct words: <strong>${correctCount}</strong>`;
+    scoreDiv.innerHTML =
+      `Total words: <strong>${words.length}</strong><br>Correct words: <strong>${correctCount}</strong>`;
 
     // Success animation
     resultDiv.classList.add("success");
@@ -141,3 +143,8 @@ document.addEventListener("DOMContentLoaded", () => {
     answerInput.value = "";
   });
 });
+
+function updateTotalWords() {
+  scoreDiv.innerHTML =
+    `Total words: <strong>${words.length}</strong><br>Correct words: <strong>0</strong>`;
+}
