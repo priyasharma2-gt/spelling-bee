@@ -112,24 +112,26 @@ function disableNextButton() {
   nextBtn.classList.add("btn-secondary");
 }
 
-// Events
-playBtn.addEventListener("click", speakWord);
-nextBtn.addEventListener("click", () => {
-  pickRandomWord();
-  speakWord();
-});
-checkBtn.addEventListener("click", checkAnswer);
-
-document.querySelectorAll(".key").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    answerInput.value += btn.textContent.toLowerCase();
+document.addEventListener("DOMContentLoaded", () => {
+  // Events
+  playBtn.addEventListener("click", speakWord);
+  nextBtn.addEventListener("click", () => {
+    pickRandomWord();
+    speakWord();
   });
-});
-
-document.getElementById("backspaceBtn").addEventListener("click", () => {
-  answerInput.value = answerInput.value.slice(0, -1);
-});
-
-document.getElementById("clearBtn").addEventListener("click", () => {
-  answerInput.value = "";
+  checkBtn.addEventListener("click", checkAnswer);
+  
+  document.querySelectorAll(".key").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      answerInput.value += btn.textContent.toLowerCase();
+    });
+  });
+  
+  document.getElementById("backspaceBtn").addEventListener("click", () => {
+    answerInput.value = answerInput.value.slice(0, -1);
+  });
+  
+  document.getElementById("clearBtn").addEventListener("click", () => {
+    answerInput.value = "";
+  });
 });
