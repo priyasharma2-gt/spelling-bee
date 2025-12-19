@@ -73,15 +73,25 @@ function checkAnswer() {
 
   if (userAnswer === correct) {
     resultDiv.innerHTML = `
-        <span class="text-success">
-            <i class="bi bi-check-circle-fill me-1"></i>
-            OK
-        </span>
-    `;
+            <span class="text-success">
+                <i class="bi bi-check-circle-fill me-1"></i>
+                OK
+            </span>
+        `;
+
     speakText("Correct");
 
     correctCount++;
     scoreDiv.innerHTML = `Correct words: <strong>${correctCount}</strong>`;
+
+    // Success animation
+    resultDiv.classList.add("success");
+
+    setTimeout(() => {
+      resultDiv.classList.remove("success");
+      pickRandomWord();
+      speakWord();
+    }, 2000);
   } else {
     resultDiv.innerHTML = `
             <span class="text-danger">
@@ -115,22 +125,18 @@ function disableNextButton() {
 document.addEventListener("DOMContentLoaded", () => {
   // Events
   playBtn.addEventListener("click", speakWord);
-  nextBtn.addEventListener("click", () => {
-    pickRandomWord();
-    speakWord();
-  });
   checkBtn.addEventListener("click", checkAnswer);
-  
+
   document.querySelectorAll(".key").forEach((btn) => {
     btn.addEventListener("click", () => {
       answerInput.value += btn.textContent.toLowerCase();
     });
   });
-  
+
   document.getElementById("backspaceBtn").addEventListener("click", () => {
     answerInput.value = answerInput.value.slice(0, -1);
   });
-  
+
   document.getElementById("clearBtn").addEventListener("click", () => {
     answerInput.value = "";
   });
