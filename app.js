@@ -11,6 +11,10 @@ const resultDiv = document.getElementById("result");
 // Speech synthesis
 const synth = window.speechSynthesis;
 
+let correctCount = 0;
+
+const scoreDiv = document.getElementById("score");
+
 // Load words from words.txt
 fetch("./words.txt")
   .then((response) => {
@@ -67,15 +71,17 @@ function checkAnswer() {
   const userAnswer = answerInput.value.trim().toLowerCase();
   const correct = currentWord.toLowerCase();
 
-  if (userAnswer === correct) {
+if (userAnswer === correct) {
     resultDiv.innerHTML = `
-            <span class="text-success">
-                <i class="bi bi-check-circle-fill me-1"></i>
-                OK
-            </span>
-        `;
+        <span class="text-success">
+            <i class="bi bi-check-circle-fill me-1"></i>
+            OK
+        </span>
+    `;
     speakText("Correct");
-    //enableNextButton();
+
+    correctCount++;
+    scoreDiv.innerHTML = `Correct words: <strong>${correctCount}</strong>`;
   } else {
     resultDiv.innerHTML = `
             <span class="text-danger">
