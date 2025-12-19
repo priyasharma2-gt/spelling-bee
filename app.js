@@ -71,7 +71,7 @@ function checkAnswer() {
   const userAnswer = answerInput.value.trim().toLowerCase();
   const correct = currentWord.toLowerCase();
 
-if (userAnswer === correct) {
+  if (userAnswer === correct) {
     resultDiv.innerHTML = `
         <span class="text-success">
             <i class="bi bi-check-circle-fill me-1"></i>
@@ -119,3 +119,17 @@ nextBtn.addEventListener("click", () => {
   speakWord();
 });
 checkBtn.addEventListener("click", checkAnswer);
+
+document.querySelectorAll(".key").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    answerInput.value += btn.textContent.toLowerCase();
+  });
+});
+
+document.getElementById("backspaceBtn").addEventListener("click", () => {
+  answerInput.value = answerInput.value.slice(0, -1);
+});
+
+document.getElementById("clearBtn").addEventListener("click", () => {
+  answerInput.value = "";
+});
