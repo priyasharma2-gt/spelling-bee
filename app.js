@@ -1,5 +1,21 @@
 let words = [];
 let currentWord = null;
+let wordDeck = [];
+let deckIndex = 0;
+
+function shuffleArray(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
+function resetDeck() {
+    wordDeck = shuffleArray([...words]);
+    deckIndex = 0;
+}
+
 
 // Elements
 const playBtn = document.getElementById("playBtn");
@@ -29,8 +45,8 @@ fetch("./words.txt")
       .map((w) => w.trim())
       .filter((w) => w.length > 0);
 
-    updateTotalWords();
-    pickRandomWord();
+    resetDeck();
+    pickNextWord();
   })
   .catch((err) => {
     resultDiv.textContent = "Error loading words list";
@@ -38,17 +54,20 @@ fetch("./words.txt")
     console.error(err);
   });
 
-function pickRandomWord() {
-  if (words.length === 0) return;
+function pickNextWord() {
+    if (words.length === 0) return;
 
-  const index = Math.floor(Math.random() * words.length);
-  currentWord = words[index];
+    if (wordDeck.length === 0 || deckIndex >= wordDeck.length) {
+        resetDeck(); // finished all words, reshuffle and start over
+    }
 
-  answerInput.value = "";
-  resultDiv.textContent = "";
+    currentWord = wordDeck[deckIndex];
+    deckIndex++;
 
-  //disableNextButton();
+    answerInput.value = "";
+    resultDiv.textContent = "";
 }
+
 
 function speakWord() {
   if (!currentWord) return;
@@ -91,7 +110,7 @@ function checkAnswer() {
 
     setTimeout(() => {
       resultDiv.classList.remove("success");
-      pickRandomWord();
+      pickNextWord();
       speakWord();
     }, 2000);
   } else {
