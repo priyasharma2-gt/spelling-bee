@@ -46,6 +46,7 @@ fetch("./words.txt")
       .filter((w) => w.length > 0);
 
     resetDeck();
+    updateTotalWords();
     pickNextWord();
   })
   .catch((err) => {
