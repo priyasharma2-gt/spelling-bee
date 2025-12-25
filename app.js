@@ -73,7 +73,7 @@ function speakWord() {
   if (!currentWord) return;
 
   const utterance = new SpeechSynthesisUtterance(currentWord);
-  utterance.rate = 0.5;
+  utterance.rate = 0.25;
 
   playBtn.classList.add("playing");
 
