@@ -23,6 +23,7 @@ const nextBtn = document.getElementById("nextBtn");
 const checkBtn = document.getElementById("checkBtn");
 const answerInput = document.getElementById("answerInput");
 const resultDiv = document.getElementById("result");
+const hintBtn = document.getElementById("hintBtn");
 
 // Speech synthesis
 const synth = window.speechSynthesis;
@@ -162,6 +163,12 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("clearBtn").addEventListener("click", () => {
     answerInput.value = "";
   });
+
+  hintBtn.addEventListener("click", () => {
+    if (!currentWord) return;
+    alert(`Hint: ${currentWord}`);
+  });
+
 });
 
 function updateTotalWords() {
